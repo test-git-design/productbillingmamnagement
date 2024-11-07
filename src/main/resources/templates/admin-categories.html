@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Categories</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #343a40;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+
+        table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        th:first-child {
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        td {
+            font-size: 16px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .actions a,
+        .actions button {
+            text-decoration: none;
+            padding: 8px 20px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            width: 90px;
+        }
+
+        .actions .btn-primary {
+            background-color: #007bff;
+        }
+
+        .actions .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .actions .btn-danger {
+            background-color: #dc3545;
+            font-size: 14px;
+            padding: 8px 20px;
+            text-align: center;
+        }
+
+        .actions .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .actions .btn-manage {
+            background-color: #17a2b8;
+            padding: 8px 20px;
+            width: 130px;
+        }
+
+        .actions .btn-manage:hover {
+            background-color: #138496;
+        }
+
+        .add-category-btn {
+            display: inline-block;
+            margin: 20px auto;
+            padding: 12px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .add-category-btn:hover {
+            background-color: #218838;
+        }
+
+        .form-delete {
+            display: inline;
+        }
+
+        .form-delete button {
+            background: #dc3545;
+            border: none;
+            color: white;
+            font-size: 14px;
+            padding: 8px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 90px;
+        }
+
+        .form-delete button:hover {
+            background-color: #c82333;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Manage Categories</h1>
+    <a href="/admin/categories/add" class="add-category-btn">Add New Category</a>
+    <table>
+        <thead>
+        <tr>
+            <th>Category Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="category : ${categories}">
+            <td th:text="${category.name}"></td>
+            <td class="actions">
+                <a class="btn btn-primary" th:href="@{/admin/categories/edit/{id}(id=${category.id})}">Edit</a>
+
+                <!-- Form for delete button -->
+                <form class="form-delete" th:action="@{/admin/categories/delete/{id}(id=${category.id})}" method="post" onsubmit="return confirm('Are you sure you want to delete this category? All products will be deleted too.');">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+
+                <a class="btn btn-manage" th:href="@{/admin/categories/{id}/products(id=${category.id})}">Manage Products</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+
+</html>

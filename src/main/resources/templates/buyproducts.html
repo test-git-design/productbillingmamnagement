@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Products</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #007bff;
+            text-align: center;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e6f7ff;
+        }
+
+        .product-quantity {
+            width: 50px;
+            padding: 5px;
+        }
+
+        #totalAmount {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        button:hover:enabled {
+            background-color: #218838;
+        }
+
+    </style>
+    <script>
+        function calculateTotal() {
+            let total = 0;
+            let hasSelectedQuantity = false;
+            const rows = document.querySelectorAll('.product-row');
+            rows.forEach(row => {
+                const price = parseFloat(row.querySelector('.product-price').innerText);
+                const quantity = parseInt(row.querySelector('.product-quantity').value || 0);
+                total += price * quantity;
+                if (quantity > 0) {
+                    hasSelectedQuantity = true;
+                }
+            });
+            document.getElementById('totalAmount').innerText = 'Total: $' + total.toFixed(2);
+            document.querySelector('button[type="submit"]').disabled = !hasSelectedQuantity;  // Enable button only when quantity is selected
+        }
+    </script>
+</head>
+<body>
+
+<h1>Buy Products</h1>
+
+<form action="/products/checkout" method="post">
+    <table>
+        <tr>
+            <th>Product Name</th>
+            <th>Price ($)</th>
+            <th>Available Quantity</th>
+            <th>Select Quantity</th>
+        </tr>
+        <tr th:each="product : ${products}" class="product-row">
+            <td th:text="${product.name}"></td>
+            <td class="product-price" th:text="${product.price}"></td> <!-- Removed the decimal format for now -->
+            <td th:text="${product.quantity}"></td>
+            <td>
+                <input type="hidden" name="productIds" th:value="${product.id}">
+                <input type="number" class="product-quantity" name="quantities" min="0" max="${product.quantity}" value="0" oninput="calculateTotal()" placeholder="0" aria-label="Select quantity">
+            </td>
+        </tr>
+    </table>
+
+    <p id="totalAmount">Total: $0.00</p>
+
+    <button type="submit" disabled>Checkout</button> <!-- Initially disabled -->
+</form>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>TPOS Admin Login</title>
+    <style>
+        /* Center the form on the screen */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Style for the login container */
+        .login-container {
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+        }
+
+        /* Style for the heading */
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* Style for the input fields */
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        /* Style for the submit button */
+        button {
+            background-color: #0071ce;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+        }
+
+        /* Error message styling */
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        /* TPOS specific heading */
+        .header {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #0071ce;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <div class="header">TPOS Admin Login</div>
+    <h2>Admin Login System</h2>
+    <form th:action="@{/adminlogin}" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Login</button>
+    </form>
+    <div th:if="${error}" class="error">
+        <p th:text="${error}"></p>
+    </div>
+</div>
+</body>
+</html>

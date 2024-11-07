@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Manage Products</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <!-- Change categoryId to categoryName -->
+    <h1>Manage Products for Category: <span th:text="${categoryName}"></span></h1>
+
+    <a class="btn btn-success mb-3" th:href="@{/admin/categories/{categoryId}/products/add(categoryId=${categoryId})}">
+        Add New Product
+    </a>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.quantity}"></td>
+            <td>
+                <a class="btn btn-primary" th:href="@{/admin/products/edit/{id}(id=${product.id})}">Edit</a>
+                <a class="btn btn-danger" th:href="@{/admin/products/delete/{id}(id=${product.id})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-secondary" th:href="@{/admin/categories}">Back to Categories</a>
+</div>
+</body>
+</html>
